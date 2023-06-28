@@ -2,253 +2,103 @@ Created by PLY version 3.11 (http://www.dabeaz.com/ply)
 
 Grammar
 
-Rule 0     S' -> statements
-Rule 1     statements -> statement
-Rule 2     statements -> statements statement
-Rule 3     statement -> note_statement
-Rule 4     statement -> instrument_statement
-Rule 5     statement -> tempo_statement
-Rule 6     statement -> duration_statement
-Rule 7     statement -> velocity_statement
-Rule 8     note_statement -> NOTE DURATION VELOCITY
-Rule 9     instrument_statement -> INSTRUMENT
-Rule 10    tempo_statement -> TEMPO
-Rule 11    duration_statement -> DURATION
-Rule 12    velocity_statement -> VELOCITY
+Rule 0     S' -> file
+Rule 1     file -> file item
+Rule 2     file -> item
+Rule 3     item -> NOTE
+Rule 4     item -> INSTRUMENT
+Rule 5     item -> PARAMETER
 
 Terminals, with rules where they appear
 
-DURATION             : 8 11
-INSTRUMENT           : 9
-NOTE                 : 8
-TEMPO                : 10
-VELOCITY             : 8 12
+INSTRUMENT           : 4
+NOTE                 : 3
+PARAMETER            : 5
 error                : 
 
 Nonterminals, with rules where they appear
 
-duration_statement   : 6
-instrument_statement : 4
-note_statement       : 3
-statement            : 1 2
-statements           : 2 0
-tempo_statement      : 5
-velocity_statement   : 7
+file                 : 1 0
+item                 : 1 2
 
 Parsing method: LALR
 
 state 0
 
-    (0) S' -> . statements
-    (1) statements -> . statement
-    (2) statements -> . statements statement
-    (3) statement -> . note_statement
-    (4) statement -> . instrument_statement
-    (5) statement -> . tempo_statement
-    (6) statement -> . duration_statement
-    (7) statement -> . velocity_statement
-    (8) note_statement -> . NOTE DURATION VELOCITY
-    (9) instrument_statement -> . INSTRUMENT
-    (10) tempo_statement -> . TEMPO
-    (11) duration_statement -> . DURATION
-    (12) velocity_statement -> . VELOCITY
+    (0) S' -> . file
+    (1) file -> . file item
+    (2) file -> . item
+    (3) item -> . NOTE
+    (4) item -> . INSTRUMENT
+    (5) item -> . PARAMETER
 
-    NOTE            shift and go to state 8
-    INSTRUMENT      shift and go to state 11
-    TEMPO           shift and go to state 12
-    DURATION        shift and go to state 9
-    VELOCITY        shift and go to state 10
+    NOTE            shift and go to state 3
+    INSTRUMENT      shift and go to state 4
+    PARAMETER       shift and go to state 5
 
-    statements                     shift and go to state 1
-    statement                      shift and go to state 2
-    note_statement                 shift and go to state 3
-    instrument_statement           shift and go to state 4
-    tempo_statement                shift and go to state 5
-    duration_statement             shift and go to state 6
-    velocity_statement             shift and go to state 7
+    file                           shift and go to state 1
+    item                           shift and go to state 2
 
 state 1
 
-    (0) S' -> statements .
-    (2) statements -> statements . statement
-    (3) statement -> . note_statement
-    (4) statement -> . instrument_statement
-    (5) statement -> . tempo_statement
-    (6) statement -> . duration_statement
-    (7) statement -> . velocity_statement
-    (8) note_statement -> . NOTE DURATION VELOCITY
-    (9) instrument_statement -> . INSTRUMENT
-    (10) tempo_statement -> . TEMPO
-    (11) duration_statement -> . DURATION
-    (12) velocity_statement -> . VELOCITY
+    (0) S' -> file .
+    (1) file -> file . item
+    (3) item -> . NOTE
+    (4) item -> . INSTRUMENT
+    (5) item -> . PARAMETER
 
-    NOTE            shift and go to state 8
-    INSTRUMENT      shift and go to state 11
-    TEMPO           shift and go to state 12
-    DURATION        shift and go to state 9
-    VELOCITY        shift and go to state 10
+    NOTE            shift and go to state 3
+    INSTRUMENT      shift and go to state 4
+    PARAMETER       shift and go to state 5
 
-    statement                      shift and go to state 13
-    note_statement                 shift and go to state 3
-    instrument_statement           shift and go to state 4
-    tempo_statement                shift and go to state 5
-    duration_statement             shift and go to state 6
-    velocity_statement             shift and go to state 7
+    item                           shift and go to state 6
 
 state 2
 
-    (1) statements -> statement .
+    (2) file -> item .
 
-    NOTE            reduce using rule 1 (statements -> statement .)
-    INSTRUMENT      reduce using rule 1 (statements -> statement .)
-    TEMPO           reduce using rule 1 (statements -> statement .)
-    DURATION        reduce using rule 1 (statements -> statement .)
-    VELOCITY        reduce using rule 1 (statements -> statement .)
-    $end            reduce using rule 1 (statements -> statement .)
+    NOTE            reduce using rule 2 (file -> item .)
+    INSTRUMENT      reduce using rule 2 (file -> item .)
+    PARAMETER       reduce using rule 2 (file -> item .)
+    $end            reduce using rule 2 (file -> item .)
 
 
 state 3
 
-    (3) statement -> note_statement .
+    (3) item -> NOTE .
 
-    NOTE            reduce using rule 3 (statement -> note_statement .)
-    INSTRUMENT      reduce using rule 3 (statement -> note_statement .)
-    TEMPO           reduce using rule 3 (statement -> note_statement .)
-    DURATION        reduce using rule 3 (statement -> note_statement .)
-    VELOCITY        reduce using rule 3 (statement -> note_statement .)
-    $end            reduce using rule 3 (statement -> note_statement .)
+    NOTE            reduce using rule 3 (item -> NOTE .)
+    INSTRUMENT      reduce using rule 3 (item -> NOTE .)
+    PARAMETER       reduce using rule 3 (item -> NOTE .)
+    $end            reduce using rule 3 (item -> NOTE .)
 
 
 state 4
 
-    (4) statement -> instrument_statement .
+    (4) item -> INSTRUMENT .
 
-    NOTE            reduce using rule 4 (statement -> instrument_statement .)
-    INSTRUMENT      reduce using rule 4 (statement -> instrument_statement .)
-    TEMPO           reduce using rule 4 (statement -> instrument_statement .)
-    DURATION        reduce using rule 4 (statement -> instrument_statement .)
-    VELOCITY        reduce using rule 4 (statement -> instrument_statement .)
-    $end            reduce using rule 4 (statement -> instrument_statement .)
+    NOTE            reduce using rule 4 (item -> INSTRUMENT .)
+    INSTRUMENT      reduce using rule 4 (item -> INSTRUMENT .)
+    PARAMETER       reduce using rule 4 (item -> INSTRUMENT .)
+    $end            reduce using rule 4 (item -> INSTRUMENT .)
 
 
 state 5
 
-    (5) statement -> tempo_statement .
+    (5) item -> PARAMETER .
 
-    NOTE            reduce using rule 5 (statement -> tempo_statement .)
-    INSTRUMENT      reduce using rule 5 (statement -> tempo_statement .)
-    TEMPO           reduce using rule 5 (statement -> tempo_statement .)
-    DURATION        reduce using rule 5 (statement -> tempo_statement .)
-    VELOCITY        reduce using rule 5 (statement -> tempo_statement .)
-    $end            reduce using rule 5 (statement -> tempo_statement .)
+    NOTE            reduce using rule 5 (item -> PARAMETER .)
+    INSTRUMENT      reduce using rule 5 (item -> PARAMETER .)
+    PARAMETER       reduce using rule 5 (item -> PARAMETER .)
+    $end            reduce using rule 5 (item -> PARAMETER .)
 
 
 state 6
 
-    (6) statement -> duration_statement .
+    (1) file -> file item .
 
-    NOTE            reduce using rule 6 (statement -> duration_statement .)
-    INSTRUMENT      reduce using rule 6 (statement -> duration_statement .)
-    TEMPO           reduce using rule 6 (statement -> duration_statement .)
-    DURATION        reduce using rule 6 (statement -> duration_statement .)
-    VELOCITY        reduce using rule 6 (statement -> duration_statement .)
-    $end            reduce using rule 6 (statement -> duration_statement .)
-
-
-state 7
-
-    (7) statement -> velocity_statement .
-
-    NOTE            reduce using rule 7 (statement -> velocity_statement .)
-    INSTRUMENT      reduce using rule 7 (statement -> velocity_statement .)
-    TEMPO           reduce using rule 7 (statement -> velocity_statement .)
-    DURATION        reduce using rule 7 (statement -> velocity_statement .)
-    VELOCITY        reduce using rule 7 (statement -> velocity_statement .)
-    $end            reduce using rule 7 (statement -> velocity_statement .)
-
-
-state 8
-
-    (8) note_statement -> NOTE . DURATION VELOCITY
-
-    DURATION        shift and go to state 14
-
-
-state 9
-
-    (11) duration_statement -> DURATION .
-
-    NOTE            reduce using rule 11 (duration_statement -> DURATION .)
-    INSTRUMENT      reduce using rule 11 (duration_statement -> DURATION .)
-    TEMPO           reduce using rule 11 (duration_statement -> DURATION .)
-    DURATION        reduce using rule 11 (duration_statement -> DURATION .)
-    VELOCITY        reduce using rule 11 (duration_statement -> DURATION .)
-    $end            reduce using rule 11 (duration_statement -> DURATION .)
-
-
-state 10
-
-    (12) velocity_statement -> VELOCITY .
-
-    NOTE            reduce using rule 12 (velocity_statement -> VELOCITY .)
-    INSTRUMENT      reduce using rule 12 (velocity_statement -> VELOCITY .)
-    TEMPO           reduce using rule 12 (velocity_statement -> VELOCITY .)
-    DURATION        reduce using rule 12 (velocity_statement -> VELOCITY .)
-    VELOCITY        reduce using rule 12 (velocity_statement -> VELOCITY .)
-    $end            reduce using rule 12 (velocity_statement -> VELOCITY .)
-
-
-state 11
-
-    (9) instrument_statement -> INSTRUMENT .
-
-    NOTE            reduce using rule 9 (instrument_statement -> INSTRUMENT .)
-    INSTRUMENT      reduce using rule 9 (instrument_statement -> INSTRUMENT .)
-    TEMPO           reduce using rule 9 (instrument_statement -> INSTRUMENT .)
-    DURATION        reduce using rule 9 (instrument_statement -> INSTRUMENT .)
-    VELOCITY        reduce using rule 9 (instrument_statement -> INSTRUMENT .)
-    $end            reduce using rule 9 (instrument_statement -> INSTRUMENT .)
-
-
-state 12
-
-    (10) tempo_statement -> TEMPO .
-
-    NOTE            reduce using rule 10 (tempo_statement -> TEMPO .)
-    INSTRUMENT      reduce using rule 10 (tempo_statement -> TEMPO .)
-    TEMPO           reduce using rule 10 (tempo_statement -> TEMPO .)
-    DURATION        reduce using rule 10 (tempo_statement -> TEMPO .)
-    VELOCITY        reduce using rule 10 (tempo_statement -> TEMPO .)
-    $end            reduce using rule 10 (tempo_statement -> TEMPO .)
-
-
-state 13
-
-    (2) statements -> statements statement .
-
-    NOTE            reduce using rule 2 (statements -> statements statement .)
-    INSTRUMENT      reduce using rule 2 (statements -> statements statement .)
-    TEMPO           reduce using rule 2 (statements -> statements statement .)
-    DURATION        reduce using rule 2 (statements -> statements statement .)
-    VELOCITY        reduce using rule 2 (statements -> statements statement .)
-    $end            reduce using rule 2 (statements -> statements statement .)
-
-
-state 14
-
-    (8) note_statement -> NOTE DURATION . VELOCITY
-
-    VELOCITY        shift and go to state 15
-
-
-state 15
-
-    (8) note_statement -> NOTE DURATION VELOCITY .
-
-    NOTE            reduce using rule 8 (note_statement -> NOTE DURATION VELOCITY .)
-    INSTRUMENT      reduce using rule 8 (note_statement -> NOTE DURATION VELOCITY .)
-    TEMPO           reduce using rule 8 (note_statement -> NOTE DURATION VELOCITY .)
-    DURATION        reduce using rule 8 (note_statement -> NOTE DURATION VELOCITY .)
-    VELOCITY        reduce using rule 8 (note_statement -> NOTE DURATION VELOCITY .)
-    $end            reduce using rule 8 (note_statement -> NOTE DURATION VELOCITY .)
+    NOTE            reduce using rule 1 (file -> file item .)
+    INSTRUMENT      reduce using rule 1 (file -> file item .)
+    PARAMETER       reduce using rule 1 (file -> file item .)
+    $end            reduce using rule 1 (file -> file item .)
 

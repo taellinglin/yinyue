@@ -1,0 +1,8 @@
+## [0.9.0] - 2017-02-08
+### Changed
+- added support for midi key influence to pitch generator
+- added edge case where no instrument is linked from preset (was crashing during parse)
+
+## [0.8.0] - 2016-02-02
+### Added
+- tags and comment related methods in RenoiseInstrument

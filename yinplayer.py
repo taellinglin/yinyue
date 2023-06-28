@@ -1,130 +1,134 @@
-import ply.lex as lex
-import ply.yacc as yacc
-from midiutil.MidiFile import MIDIFile
-import argparse
-import tempfile
-import os
-import subprocess
 import sys
+from ply import lex
+import subsynth
 
-class YinPlayer:
-    tokens = (
-        'NOTE',
-        'INSTRUMENT',
-        'TEMPO',
-        'DURATION',
-        'VELOCITY',
-    )
+# Create subsynth instance
+synth = subsynth.SubtractiveSynthesizer("default.instrument")
 
-    def t_NOTE(t):
-        r'[A-G][#b]?[0-9]+'
-        return t
+# Define tokens
+tokens = (
+    'CHANNEL',
+    'NOTE',
+    'START_TIME',
+    'VELOCITY',
+    'PANNING',
+    'VOLUME',
+    'ILLEGAL',
+)
+
+# Regular expressions for tokens
+def t_CHANNEL(t):
+    r'C\d+:'
+    t.value = int(t.value[1:-1])  # Extract the channel number
+    return t
+
+def t_NOTE(t):
+    r'N\d+:'
+    t.value = int(t.value[1:-1])  # Extract the note number
+    return t
+
+def t_START_TIME(t):
+    r'S:\s*\d+(\.\d+)?'
+    t.value = float(t.value[2:])  # Extract the start time
+    return t
+
+def t_VELOCITY(t):
+    r'V:\s*\d+'
+    t.value = int(t.value[2:])  # Extract the velocity
+    return t
+
+def t_PANNING(t):
+    r'P:\s*\d+'
+    t.value = int(t.value[2:])  # Extract the panning value
+    return t
+
+def t_VOLUME(t):
+    r'V:\s*(\d+(\.\d+)?(?:,\s*V:\s*\d+(\.\d+)?)*)'
+    values = t.value[2:].split(',')
+    t.value = [float(v.strip()) for v in values]
+    return t
+
+def t_ILLEGAL(t):
+    r'[^ \t\n]+'
+    print(f"Illegal character '{t.value}'")
+    t.lexer.skip(1)
+
+# Error handling rule
+def t_error(t):
+    print(f"Illegal character '{t.value[0]}'")
+    t.lexer.skip(1)
+
+t_ignore = ' \t\n,'
+
+# Build lexer
+lexer = lex.lex()
+
+def parse_yin(yin_file_path, synth):
+    # Read the file
+    with open(yin_file_path, 'r') as f:
+        yin_file_contents = f.readlines()
+
+    # Process the lines
+    for line in yin_file_contents:
+        line = line.strip()
+
+        if line.startswith('C') and line[1].isdigit():
+            # Extract the channel number
+            current_channel = int(line[1:-1])
+            print(f"Current channel: {current_channel}")
+        elif line.startswith(('Nchannel_panning', 'Nchannel_volume')):
+            # Extract the channel panning or volume
+            parts = line.split(':')
+            channel_parameter = parts[0]
+            value = int(parts[1].strip())
+            if channel_parameter == 'Nchannel_panning':
+                print(f"Channel panning: {value}")
+                synth.set_channel_panning(current_channel, value)
+            elif channel_parameter == 'Nchannel_volume':
+                print(f"Channel volume: {value}")
+                synth.set_channel_volume(current_channel, value)
+        elif line.startswith('N'):
+            # Extract the note number
+            print("Extracting Note Number...")
+            current_note = int(line[1:line.index(':')])  # Get the integer note number before the ':'
+
+            print("Extracting Note Parameters...")
+            # Extract the note parameters (start time, velocity)
+            note_params = line[line.index(':')+1:].split(', ')
+
+            start_time = None
+            velocities = []
+            for param in note_params:
+                if param.startswith('S:'):
+                    print("Extracting start time")
+                    start_time = float(param[2:].strip())  # Extract the start time
+                    print(f"Start time: {start_time}")
+                elif param.startswith('V:'):
+                    print("Appending Velocities")
+                    velocities.append(int(float(param[2:].strip())))  # Extract the velocity
+                    print(f"Velocities: {velocities}")
+
+            # Ensure start_time and velocity are not None before playing note
+            if start_time is not None and velocities:
+                for velocity in velocities:
+                    print(f"Playing note with velocity: {velocity}")
+                    synth.play_note(current_channel, current_note, velocity)
+        elif line:
+            # Skip unexpected lines
+            continue
 
 
-    def t_INSTRUMENT(t):
-        r'@[A-Za-z_][A-Za-z_0-9]*'
-        return t
 
-    def t_TEMPO(t):
-        r'T\d+'
-        return t
 
-    def t_DURATION(t):
-        r'D\d+'
-        return t
 
-    def t_VELOCITY(t):
-        r'V\d+'
-        return t
+if __name__ == '__main__':
+    if len(sys.argv) < 3:
+        print('Usage: python yin2midi.py <input_file.yin> <instrument_file.instrument>')
+    else:
+        input_file_path = sys.argv[1]
+        instrument_file_path = sys.argv[2]
 
-    t_ignore = ' \t\n'
+        # Create subsynth instance with the instrument file
+        synth = subsynth.SubtractiveSynthesizer(instrument_file_path)
 
-    def p_statements(p):
-        '''statements : statement
-                      | statements statement'''
-        if len(p) == 2:
-            p[0] = [p[1]]
-        else:
-            p[0] = p[1] + [p[2]]
-
-    def p_statement(p):
-        '''statement : note_statement
-                     | instrument_statement
-                     | tempo_statement
-                     | duration_statement
-                     | velocity_statement'''
-        p[0] = p[1]
-
-    def p_note_statement(p):
-        'note_statement : NOTE DURATION VELOCITY'
-        p[0] = ('note', p[1], int(p[2][1:]), int(p[3][1:]))
-
-    def p_instrument_statement(p):
-        'instrument_statement : INSTRUMENT'
-        p[0] = ('instrument', p[1][1:])
-
-    def p_tempo_statement(p):
-        'tempo_statement : TEMPO'
-        p[0] = ('tempo', int(p[1][1:]))
-
-    def p_duration_statement(p):
-        'duration_statement : DURATION'
-        p[0] = ('duration', int(p[1][1:]))
-
-    def p_velocity_statement(p):
-        'velocity_statement : VELOCITY'
-        p[0] = ('velocity', int(p[1][1:]))
-
-    def p_error(p):
-        print("Syntax error in input!", file=sys.stderr)
-
-    lexer = lex.lex()
-    parser = yacc.yacc()
-
-    def __init__(self, soundfont):
-        self.soundfont = soundfont
-
-    def parse_program(self, program):
-        return self.parser.parse(program, lexer=self.lexer)
-
-    def convert_to_midi(self, parsed_program):
-        mf = MIDIFile(1)
-        track = 0
-        time = 0
-        mf.addTrackName(track, time, "Sample Track")
-        mf.addTempo(track, time, 120)
-
-        for command in parsed_program:
-            if command[0] == 'note':
-                channel = 0
-                pitch = command[1]
-                time = command[2]
-                duration = command[3]
-                volume = 100
-                mf.addNote(track, channel, pitch, time, duration, volume)
-
-        temp = tempfile.NamedTemporaryFile(delete=False)
-        mf.writeFile(temp)
-        temp.close()
-        return temp.name
-
-    def play_midi(self, midi_file):
-        command = ['fluidsynth', '-i', self.soundfont, midi_file]
-        subprocess.run(command, check=True)
-        os.remove(midi_file)
-
-    def play(self, input_file):
-        with open(input_file, 'r') as file:
-            program = file.read()
-        parsed_program = self.parse_program(program)
-        midi_file = self.convert_to_midi(parsed_program)
-        self.play_midi(midi_file)
-
-if __name__ == "__main__":
-    parser = argparse.ArgumentParser()
-    parser.add_argument('input_file', help="The .yin file to parse")
-    parser.add_argument('-s', '--soundfont', help="The GM sf2 file", required=True)
-    args = parser.parse_args()
-
-    player = YinPlayer(args.soundfont)
-    player.play(args.input_file)
+        parse_yin(input_file_path, synth)

@@ -1,0 +1,19 @@
+[Instrument]
+Name = MyInstrument
+Author = John Doe
+
+[Parameters]
+WaveformType = sawtooth
+FilterType = lowpass
+AttackTime = 0.1
+DecayTime = 0.2
+SustainLevel = 0.6
+ReleaseTime = 0.3
+LFOAttackTime = 0.1
+LFOAmplitude = 0.5
+LFOSpeed = 2.0
+LFOWaveform = triangle
+PanningLFOAttackTime = 0.1
+PanningLFOAmplitude = 0.5
+PanningLFOSpeed = 2.0
+PanningLFOWaveform = sine
