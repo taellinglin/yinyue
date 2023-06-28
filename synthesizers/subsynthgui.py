@@ -182,7 +182,7 @@ class SynthesizerGUI:
 
 
 # Example usage
-from subsynth import SubtractiveSynthesizer
+from synthesizers.subsynth import SubtractiveSynthesizer
 
 # Create an instance of the SubtractiveSynthesizer
 synthesizer = SubtractiveSynthesizer('default.instrument')
