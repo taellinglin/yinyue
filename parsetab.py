@@ -6,9 +6,9 @@ _tabversion = '3.10'
 
 _lr_method = 'LALR'
 
-_lr_signature = 'INSTRUMENT NOTE PARAMETERfile : file item\n            | itemitem : NOTE\n            | INSTRUMENT\n            | PARAMETER'
+_lr_signature = 'CHANNEL_PANNING CHANNEL_VOLUME CHORD CUTOFF END_TIME FLOAT INT PANNING PITCH_BEND RESONANCE START_TIME VELOCITYtrack : parameter track\n             | emptyparameter : START_TIME time_value\n                 | END_TIME time_value\n                 | VELOCITY velocity_value\n                 | CHORD chord_value\n                 | PANNING panning_value\n                 | CUTOFF cutoff_value\n                 | RESONANCE resonance_value\n                 | PITCH_BEND pitch_bend_value\n                 | CHANNEL_VOLUME volume_value\n                 | CHANNEL_PANNING panning_valuetime_value : FLOATvelocity_value : INTchord_value : INTpanning_value : INTcutoff_value : INTresonance_value : INTpitch_bend_value : INTvolume_value : INTempty :'
     
-_lr_action_items = {'NOTE':([0,1,2,3,4,5,6,],[3,3,-2,-3,-4,-5,-1,]),'INSTRUMENT':([0,1,2,3,4,5,6,],[4,4,-2,-3,-4,-5,-1,]),'PARAMETER':([0,1,2,3,4,5,6,],[5,5,-2,-3,-4,-5,-1,]),'$end':([1,2,3,4,5,6,],[0,-2,-3,-4,-5,-1,]),}
+_lr_action_items = {'START_TIME':([0,2,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,],[4,4,-3,-13,-4,-5,-14,-6,-15,-7,-16,-8,-17,-9,-18,-10,-19,-11,-20,-12,]),'END_TIME':([0,2,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,],[5,5,-3,-13,-4,-5,-14,-6,-15,-7,-16,-8,-17,-9,-18,-10,-19,-11,-20,-12,]),'VELOCITY':([0,2,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,],[6,6,-3,-13,-4,-5,-14,-6,-15,-7,-16,-8,-17,-9,-18,-10,-19,-11,-20,-12,]),'CHORD':([0,2,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,],[7,7,-3,-13,-4,-5,-14,-6,-15,-7,-16,-8,-17,-9,-18,-10,-19,-11,-20,-12,]),'PANNING':([0,2,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,],[8,8,-3,-13,-4,-5,-14,-6,-15,-7,-16,-8,-17,-9,-18,-10,-19,-11,-20,-12,]),'CUTOFF':([0,2,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,],[9,9,-3,-13,-4,-5,-14,-6,-15,-7,-16,-8,-17,-9,-18,-10,-19,-11,-20,-12,]),'RESONANCE':([0,2,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,],[10,10,-3,-13,-4,-5,-14,-6,-15,-7,-16,-8,-17,-9,-18,-10,-19,-11,-20,-12,]),'PITCH_BEND':([0,2,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,],[11,11,-3,-13,-4,-5,-14,-6,-15,-7,-16,-8,-17,-9,-18,-10,-19,-11,-20,-12,]),'CHANNEL_VOLUME':([0,2,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,],[12,12,-3,-13,-4,-5,-14,-6,-15,-7,-16,-8,-17,-9,-18,-10,-19,-11,-20,-12,]),'CHANNEL_PANNING':([0,2,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,],[13,13,-3,-13,-4,-5,-14,-6,-15,-7,-16,-8,-17,-9,-18,-10,-19,-11,-20,-12,]),'$end':([0,1,2,3,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,],[-21,0,-21,-2,-1,-3,-13,-4,-5,-14,-6,-15,-7,-16,-8,-17,-9,-18,-10,-19,-11,-20,-12,]),'FLOAT':([4,5,],[16,16,]),'INT':([6,7,8,9,10,11,12,13,],[19,21,23,25,27,29,31,23,]),}
 
 _lr_action = {}
 for _k, _v in _lr_action_items.items():
@@ -17,7 +17,7 @@ for _k, _v in _lr_action_items.items():
       _lr_action[_x][_k] = _y
 del _lr_action_items
 
-_lr_goto_items = {'file':([0,],[1,]),'item':([0,1,],[2,6,]),}
+_lr_goto_items = {'track':([0,2,],[1,14,]),'parameter':([0,2,],[2,2,]),'empty':([0,2,],[3,3,]),'time_value':([4,5,],[15,17,]),'velocity_value':([6,],[18,]),'chord_value':([7,],[20,]),'panning_value':([8,13,],[22,32,]),'cutoff_value':([9,],[24,]),'resonance_value':([10,],[26,]),'pitch_bend_value':([11,],[28,]),'volume_value':([12,],[30,]),}
 
 _lr_goto = {}
 for _k, _v in _lr_goto_items.items():
@@ -26,10 +26,26 @@ for _k, _v in _lr_goto_items.items():
        _lr_goto[_x][_k] = _y
 del _lr_goto_items
 _lr_productions = [
-  ("S' -> file","S'",1,None,None,None),
-  ('file -> file item','file',2,'p_file','sf22yue.py',27),
-  ('file -> item','file',1,'p_file','sf22yue.py',28),
-  ('item -> NOTE','item',1,'p_item','sf22yue.py',32),
-  ('item -> INSTRUMENT','item',1,'p_item','sf22yue.py',33),
-  ('item -> PARAMETER','item',1,'p_item','sf22yue.py',34),
+  ("S' -> track","S'",1,None,None,None),
+  ('track -> parameter track','track',2,'p_track','midi2yin.py',44),
+  ('track -> empty','track',1,'p_track','midi2yin.py',45),
+  ('parameter -> START_TIME time_value','parameter',2,'p_parameter','midi2yin.py',48),
+  ('parameter -> END_TIME time_value','parameter',2,'p_parameter','midi2yin.py',49),
+  ('parameter -> VELOCITY velocity_value','parameter',2,'p_parameter','midi2yin.py',50),
+  ('parameter -> CHORD chord_value','parameter',2,'p_parameter','midi2yin.py',51),
+  ('parameter -> PANNING panning_value','parameter',2,'p_parameter','midi2yin.py',52),
+  ('parameter -> CUTOFF cutoff_value','parameter',2,'p_parameter','midi2yin.py',53),
+  ('parameter -> RESONANCE resonance_value','parameter',2,'p_parameter','midi2yin.py',54),
+  ('parameter -> PITCH_BEND pitch_bend_value','parameter',2,'p_parameter','midi2yin.py',55),
+  ('parameter -> CHANNEL_VOLUME volume_value','parameter',2,'p_parameter','midi2yin.py',56),
+  ('parameter -> CHANNEL_PANNING panning_value','parameter',2,'p_parameter','midi2yin.py',57),
+  ('time_value -> FLOAT','time_value',1,'p_time_value','midi2yin.py',60),
+  ('velocity_value -> INT','velocity_value',1,'p_velocity_value','midi2yin.py',64),
+  ('chord_value -> INT','chord_value',1,'p_chord_value','midi2yin.py',68),
+  ('panning_value -> INT','panning_value',1,'p_panning_value','midi2yin.py',72),
+  ('cutoff_value -> INT','cutoff_value',1,'p_cutoff_value','midi2yin.py',76),
+  ('resonance_value -> INT','resonance_value',1,'p_resonance_value','midi2yin.py',80),
+  ('pitch_bend_value -> INT','pitch_bend_value',1,'p_pitch_bend_value','midi2yin.py',84),
+  ('volume_value -> INT','volume_value',1,'p_volume_value','midi2yin.py',88),
+  ('empty -> <empty>','empty',0,'p_empty','midi2yin.py',92),
 ]

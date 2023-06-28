@@ -4,11 +4,11 @@ Author = John Doe
 
 [Parameters]
 WaveformType = sawtooth
-FilterType = lowpass
-AttackTime = 0.1
-DecayTime = 0.2
-SustainLevel = 0.6
-ReleaseTime = 0.3
+FilterType = bandreject
+AttackTime = 0.5
+DecayTime = 1.0
+SustainLevel = 1.0
+ReleaseTime = 0.5
 LFOAttackTime = 0.1
 LFOAmplitude = 0.5
 LFOSpeed = 2.0
@@ -17,3 +17,4 @@ PanningLFOAttackTime = 0.1
 PanningLFOAmplitude = 0.5
 PanningLFOSpeed = 2.0
 PanningLFOWaveform = sine
+

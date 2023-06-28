@@ -2,103 +2,539 @@ Created by PLY version 3.11 (http://www.dabeaz.com/ply)
 
 Grammar
 
-Rule 0     S' -> file
-Rule 1     file -> file item
-Rule 2     file -> item
-Rule 3     item -> NOTE
-Rule 4     item -> INSTRUMENT
-Rule 5     item -> PARAMETER
+Rule 0     S' -> track
+Rule 1     track -> parameter track
+Rule 2     track -> empty
+Rule 3     parameter -> START_TIME time_value
+Rule 4     parameter -> END_TIME time_value
+Rule 5     parameter -> VELOCITY velocity_value
+Rule 6     parameter -> CHORD chord_value
+Rule 7     parameter -> PANNING panning_value
+Rule 8     parameter -> CUTOFF cutoff_value
+Rule 9     parameter -> RESONANCE resonance_value
+Rule 10    parameter -> PITCH_BEND pitch_bend_value
+Rule 11    parameter -> CHANNEL_VOLUME volume_value
+Rule 12    parameter -> CHANNEL_PANNING panning_value
+Rule 13    time_value -> FLOAT
+Rule 14    velocity_value -> INT
+Rule 15    chord_value -> INT
+Rule 16    panning_value -> INT
+Rule 17    cutoff_value -> INT
+Rule 18    resonance_value -> INT
+Rule 19    pitch_bend_value -> INT
+Rule 20    volume_value -> INT
+Rule 21    empty -> <empty>
 
 Terminals, with rules where they appear
 
-INSTRUMENT           : 4
-NOTE                 : 3
-PARAMETER            : 5
+CHANNEL_PANNING      : 12
+CHANNEL_VOLUME       : 11
+CHORD                : 6
+CUTOFF               : 8
+END_TIME             : 4
+FLOAT                : 13
+INT                  : 14 15 16 17 18 19 20
+PANNING              : 7
+PITCH_BEND           : 10
+RESONANCE            : 9
+START_TIME           : 3
+VELOCITY             : 5
 error                : 
 
 Nonterminals, with rules where they appear
 
-file                 : 1 0
-item                 : 1 2
+chord_value          : 6
+cutoff_value         : 8
+empty                : 2
+panning_value        : 7 12
+parameter            : 1
+pitch_bend_value     : 10
+resonance_value      : 9
+time_value           : 3 4
+track                : 1 0
+velocity_value       : 5
+volume_value         : 11
 
 Parsing method: LALR
 
 state 0
 
-    (0) S' -> . file
-    (1) file -> . file item
-    (2) file -> . item
-    (3) item -> . NOTE
-    (4) item -> . INSTRUMENT
-    (5) item -> . PARAMETER
+    (0) S' -> . track
+    (1) track -> . parameter track
+    (2) track -> . empty
+    (3) parameter -> . START_TIME time_value
+    (4) parameter -> . END_TIME time_value
+    (5) parameter -> . VELOCITY velocity_value
+    (6) parameter -> . CHORD chord_value
+    (7) parameter -> . PANNING panning_value
+    (8) parameter -> . CUTOFF cutoff_value
+    (9) parameter -> . RESONANCE resonance_value
+    (10) parameter -> . PITCH_BEND pitch_bend_value
+    (11) parameter -> . CHANNEL_VOLUME volume_value
+    (12) parameter -> . CHANNEL_PANNING panning_value
+    (21) empty -> .
 
-    NOTE            shift and go to state 3
-    INSTRUMENT      shift and go to state 4
-    PARAMETER       shift and go to state 5
+    START_TIME      shift and go to state 4
+    END_TIME        shift and go to state 5
+    VELOCITY        shift and go to state 6
+    CHORD           shift and go to state 7
+    PANNING         shift and go to state 8
+    CUTOFF          shift and go to state 9
+    RESONANCE       shift and go to state 10
+    PITCH_BEND      shift and go to state 11
+    CHANNEL_VOLUME  shift and go to state 12
+    CHANNEL_PANNING shift and go to state 13
+    $end            reduce using rule 21 (empty -> .)
 
-    file                           shift and go to state 1
-    item                           shift and go to state 2
+    track                          shift and go to state 1
+    parameter                      shift and go to state 2
+    empty                          shift and go to state 3
 
 state 1
 
-    (0) S' -> file .
-    (1) file -> file . item
-    (3) item -> . NOTE
-    (4) item -> . INSTRUMENT
-    (5) item -> . PARAMETER
+    (0) S' -> track .
 
-    NOTE            shift and go to state 3
-    INSTRUMENT      shift and go to state 4
-    PARAMETER       shift and go to state 5
 
-    item                           shift and go to state 6
 
 state 2
 
-    (2) file -> item .
+    (1) track -> parameter . track
+    (1) track -> . parameter track
+    (2) track -> . empty
+    (3) parameter -> . START_TIME time_value
+    (4) parameter -> . END_TIME time_value
+    (5) parameter -> . VELOCITY velocity_value
+    (6) parameter -> . CHORD chord_value
+    (7) parameter -> . PANNING panning_value
+    (8) parameter -> . CUTOFF cutoff_value
+    (9) parameter -> . RESONANCE resonance_value
+    (10) parameter -> . PITCH_BEND pitch_bend_value
+    (11) parameter -> . CHANNEL_VOLUME volume_value
+    (12) parameter -> . CHANNEL_PANNING panning_value
+    (21) empty -> .
 
-    NOTE            reduce using rule 2 (file -> item .)
-    INSTRUMENT      reduce using rule 2 (file -> item .)
-    PARAMETER       reduce using rule 2 (file -> item .)
-    $end            reduce using rule 2 (file -> item .)
+    START_TIME      shift and go to state 4
+    END_TIME        shift and go to state 5
+    VELOCITY        shift and go to state 6
+    CHORD           shift and go to state 7
+    PANNING         shift and go to state 8
+    CUTOFF          shift and go to state 9
+    RESONANCE       shift and go to state 10
+    PITCH_BEND      shift and go to state 11
+    CHANNEL_VOLUME  shift and go to state 12
+    CHANNEL_PANNING shift and go to state 13
+    $end            reduce using rule 21 (empty -> .)
 
+    parameter                      shift and go to state 2
+    track                          shift and go to state 14
+    empty                          shift and go to state 3
 
 state 3
 
-    (3) item -> NOTE .
+    (2) track -> empty .
 
-    NOTE            reduce using rule 3 (item -> NOTE .)
-    INSTRUMENT      reduce using rule 3 (item -> NOTE .)
-    PARAMETER       reduce using rule 3 (item -> NOTE .)
-    $end            reduce using rule 3 (item -> NOTE .)
+    $end            reduce using rule 2 (track -> empty .)
 
 
 state 4
 
-    (4) item -> INSTRUMENT .
+    (3) parameter -> START_TIME . time_value
+    (13) time_value -> . FLOAT
 
-    NOTE            reduce using rule 4 (item -> INSTRUMENT .)
-    INSTRUMENT      reduce using rule 4 (item -> INSTRUMENT .)
-    PARAMETER       reduce using rule 4 (item -> INSTRUMENT .)
-    $end            reduce using rule 4 (item -> INSTRUMENT .)
+    FLOAT           shift and go to state 16
 
+    time_value                     shift and go to state 15
 
 state 5
 
-    (5) item -> PARAMETER .
+    (4) parameter -> END_TIME . time_value
+    (13) time_value -> . FLOAT
 
-    NOTE            reduce using rule 5 (item -> PARAMETER .)
-    INSTRUMENT      reduce using rule 5 (item -> PARAMETER .)
-    PARAMETER       reduce using rule 5 (item -> PARAMETER .)
-    $end            reduce using rule 5 (item -> PARAMETER .)
+    FLOAT           shift and go to state 16
 
+    time_value                     shift and go to state 17
 
 state 6
 
-    (1) file -> file item .
+    (5) parameter -> VELOCITY . velocity_value
+    (14) velocity_value -> . INT
 
-    NOTE            reduce using rule 1 (file -> file item .)
-    INSTRUMENT      reduce using rule 1 (file -> file item .)
-    PARAMETER       reduce using rule 1 (file -> file item .)
-    $end            reduce using rule 1 (file -> file item .)
+    INT             shift and go to state 19
+
+    velocity_value                 shift and go to state 18
+
+state 7
+
+    (6) parameter -> CHORD . chord_value
+    (15) chord_value -> . INT
+
+    INT             shift and go to state 21
+
+    chord_value                    shift and go to state 20
+
+state 8
+
+    (7) parameter -> PANNING . panning_value
+    (16) panning_value -> . INT
+
+    INT             shift and go to state 23
+
+    panning_value                  shift and go to state 22
+
+state 9
+
+    (8) parameter -> CUTOFF . cutoff_value
+    (17) cutoff_value -> . INT
+
+    INT             shift and go to state 25
+
+    cutoff_value                   shift and go to state 24
+
+state 10
+
+    (9) parameter -> RESONANCE . resonance_value
+    (18) resonance_value -> . INT
+
+    INT             shift and go to state 27
+
+    resonance_value                shift and go to state 26
+
+state 11
+
+    (10) parameter -> PITCH_BEND . pitch_bend_value
+    (19) pitch_bend_value -> . INT
+
+    INT             shift and go to state 29
+
+    pitch_bend_value               shift and go to state 28
+
+state 12
+
+    (11) parameter -> CHANNEL_VOLUME . volume_value
+    (20) volume_value -> . INT
+
+    INT             shift and go to state 31
+
+    volume_value                   shift and go to state 30
+
+state 13
+
+    (12) parameter -> CHANNEL_PANNING . panning_value
+    (16) panning_value -> . INT
+
+    INT             shift and go to state 23
+
+    panning_value                  shift and go to state 32
+
+state 14
+
+    (1) track -> parameter track .
+
+    $end            reduce using rule 1 (track -> parameter track .)
+
+
+state 15
+
+    (3) parameter -> START_TIME time_value .
+
+    START_TIME      reduce using rule 3 (parameter -> START_TIME time_value .)
+    END_TIME        reduce using rule 3 (parameter -> START_TIME time_value .)
+    VELOCITY        reduce using rule 3 (parameter -> START_TIME time_value .)
+    CHORD           reduce using rule 3 (parameter -> START_TIME time_value .)
+    PANNING         reduce using rule 3 (parameter -> START_TIME time_value .)
+    CUTOFF          reduce using rule 3 (parameter -> START_TIME time_value .)
+    RESONANCE       reduce using rule 3 (parameter -> START_TIME time_value .)
+    PITCH_BEND      reduce using rule 3 (parameter -> START_TIME time_value .)
+    CHANNEL_VOLUME  reduce using rule 3 (parameter -> START_TIME time_value .)
+    CHANNEL_PANNING reduce using rule 3 (parameter -> START_TIME time_value .)
+    $end            reduce using rule 3 (parameter -> START_TIME time_value .)
+
+
+state 16
+
+    (13) time_value -> FLOAT .
+
+    START_TIME      reduce using rule 13 (time_value -> FLOAT .)
+    END_TIME        reduce using rule 13 (time_value -> FLOAT .)
+    VELOCITY        reduce using rule 13 (time_value -> FLOAT .)
+    CHORD           reduce using rule 13 (time_value -> FLOAT .)
+    PANNING         reduce using rule 13 (time_value -> FLOAT .)
+    CUTOFF          reduce using rule 13 (time_value -> FLOAT .)
+    RESONANCE       reduce using rule 13 (time_value -> FLOAT .)
+    PITCH_BEND      reduce using rule 13 (time_value -> FLOAT .)
+    CHANNEL_VOLUME  reduce using rule 13 (time_value -> FLOAT .)
+    CHANNEL_PANNING reduce using rule 13 (time_value -> FLOAT .)
+    $end            reduce using rule 13 (time_value -> FLOAT .)
+
+
+state 17
+
+    (4) parameter -> END_TIME time_value .
+
+    START_TIME      reduce using rule 4 (parameter -> END_TIME time_value .)
+    END_TIME        reduce using rule 4 (parameter -> END_TIME time_value .)
+    VELOCITY        reduce using rule 4 (parameter -> END_TIME time_value .)
+    CHORD           reduce using rule 4 (parameter -> END_TIME time_value .)
+    PANNING         reduce using rule 4 (parameter -> END_TIME time_value .)
+    CUTOFF          reduce using rule 4 (parameter -> END_TIME time_value .)
+    RESONANCE       reduce using rule 4 (parameter -> END_TIME time_value .)
+    PITCH_BEND      reduce using rule 4 (parameter -> END_TIME time_value .)
+    CHANNEL_VOLUME  reduce using rule 4 (parameter -> END_TIME time_value .)
+    CHANNEL_PANNING reduce using rule 4 (parameter -> END_TIME time_value .)
+    $end            reduce using rule 4 (parameter -> END_TIME time_value .)
+
+
+state 18
+
+    (5) parameter -> VELOCITY velocity_value .
+
+    START_TIME      reduce using rule 5 (parameter -> VELOCITY velocity_value .)
+    END_TIME        reduce using rule 5 (parameter -> VELOCITY velocity_value .)
+    VELOCITY        reduce using rule 5 (parameter -> VELOCITY velocity_value .)
+    CHORD           reduce using rule 5 (parameter -> VELOCITY velocity_value .)
+    PANNING         reduce using rule 5 (parameter -> VELOCITY velocity_value .)
+    CUTOFF          reduce using rule 5 (parameter -> VELOCITY velocity_value .)
+    RESONANCE       reduce using rule 5 (parameter -> VELOCITY velocity_value .)
+    PITCH_BEND      reduce using rule 5 (parameter -> VELOCITY velocity_value .)
+    CHANNEL_VOLUME  reduce using rule 5 (parameter -> VELOCITY velocity_value .)
+    CHANNEL_PANNING reduce using rule 5 (parameter -> VELOCITY velocity_value .)
+    $end            reduce using rule 5 (parameter -> VELOCITY velocity_value .)
+
+
+state 19
+
+    (14) velocity_value -> INT .
+
+    START_TIME      reduce using rule 14 (velocity_value -> INT .)
+    END_TIME        reduce using rule 14 (velocity_value -> INT .)
+    VELOCITY        reduce using rule 14 (velocity_value -> INT .)
+    CHORD           reduce using rule 14 (velocity_value -> INT .)
+    PANNING         reduce using rule 14 (velocity_value -> INT .)
+    CUTOFF          reduce using rule 14 (velocity_value -> INT .)
+    RESONANCE       reduce using rule 14 (velocity_value -> INT .)
+    PITCH_BEND      reduce using rule 14 (velocity_value -> INT .)
+    CHANNEL_VOLUME  reduce using rule 14 (velocity_value -> INT .)
+    CHANNEL_PANNING reduce using rule 14 (velocity_value -> INT .)
+    $end            reduce using rule 14 (velocity_value -> INT .)
+
+
+state 20
+
+    (6) parameter -> CHORD chord_value .
+
+    START_TIME      reduce using rule 6 (parameter -> CHORD chord_value .)
+    END_TIME        reduce using rule 6 (parameter -> CHORD chord_value .)
+    VELOCITY        reduce using rule 6 (parameter -> CHORD chord_value .)
+    CHORD           reduce using rule 6 (parameter -> CHORD chord_value .)
+    PANNING         reduce using rule 6 (parameter -> CHORD chord_value .)
+    CUTOFF          reduce using rule 6 (parameter -> CHORD chord_value .)
+    RESONANCE       reduce using rule 6 (parameter -> CHORD chord_value .)
+    PITCH_BEND      reduce using rule 6 (parameter -> CHORD chord_value .)
+    CHANNEL_VOLUME  reduce using rule 6 (parameter -> CHORD chord_value .)
+    CHANNEL_PANNING reduce using rule 6 (parameter -> CHORD chord_value .)
+    $end            reduce using rule 6 (parameter -> CHORD chord_value .)
+
+
+state 21
+
+    (15) chord_value -> INT .
+
+    START_TIME      reduce using rule 15 (chord_value -> INT .)
+    END_TIME        reduce using rule 15 (chord_value -> INT .)
+    VELOCITY        reduce using rule 15 (chord_value -> INT .)
+    CHORD           reduce using rule 15 (chord_value -> INT .)
+    PANNING         reduce using rule 15 (chord_value -> INT .)
+    CUTOFF          reduce using rule 15 (chord_value -> INT .)
+    RESONANCE       reduce using rule 15 (chord_value -> INT .)
+    PITCH_BEND      reduce using rule 15 (chord_value -> INT .)
+    CHANNEL_VOLUME  reduce using rule 15 (chord_value -> INT .)
+    CHANNEL_PANNING reduce using rule 15 (chord_value -> INT .)
+    $end            reduce using rule 15 (chord_value -> INT .)
+
+
+state 22
+
+    (7) parameter -> PANNING panning_value .
+
+    START_TIME      reduce using rule 7 (parameter -> PANNING panning_value .)
+    END_TIME        reduce using rule 7 (parameter -> PANNING panning_value .)
+    VELOCITY        reduce using rule 7 (parameter -> PANNING panning_value .)
+    CHORD           reduce using rule 7 (parameter -> PANNING panning_value .)
+    PANNING         reduce using rule 7 (parameter -> PANNING panning_value .)
+    CUTOFF          reduce using rule 7 (parameter -> PANNING panning_value .)
+    RESONANCE       reduce using rule 7 (parameter -> PANNING panning_value .)
+    PITCH_BEND      reduce using rule 7 (parameter -> PANNING panning_value .)
+    CHANNEL_VOLUME  reduce using rule 7 (parameter -> PANNING panning_value .)
+    CHANNEL_PANNING reduce using rule 7 (parameter -> PANNING panning_value .)
+    $end            reduce using rule 7 (parameter -> PANNING panning_value .)
+
+
+state 23
+
+    (16) panning_value -> INT .
+
+    START_TIME      reduce using rule 16 (panning_value -> INT .)
+    END_TIME        reduce using rule 16 (panning_value -> INT .)
+    VELOCITY        reduce using rule 16 (panning_value -> INT .)
+    CHORD           reduce using rule 16 (panning_value -> INT .)
+    PANNING         reduce using rule 16 (panning_value -> INT .)
+    CUTOFF          reduce using rule 16 (panning_value -> INT .)
+    RESONANCE       reduce using rule 16 (panning_value -> INT .)
+    PITCH_BEND      reduce using rule 16 (panning_value -> INT .)
+    CHANNEL_VOLUME  reduce using rule 16 (panning_value -> INT .)
+    CHANNEL_PANNING reduce using rule 16 (panning_value -> INT .)
+    $end            reduce using rule 16 (panning_value -> INT .)
+
+
+state 24
+
+    (8) parameter -> CUTOFF cutoff_value .
+
+    START_TIME      reduce using rule 8 (parameter -> CUTOFF cutoff_value .)
+    END_TIME        reduce using rule 8 (parameter -> CUTOFF cutoff_value .)
+    VELOCITY        reduce using rule 8 (parameter -> CUTOFF cutoff_value .)
+    CHORD           reduce using rule 8 (parameter -> CUTOFF cutoff_value .)
+    PANNING         reduce using rule 8 (parameter -> CUTOFF cutoff_value .)
+    CUTOFF          reduce using rule 8 (parameter -> CUTOFF cutoff_value .)
+    RESONANCE       reduce using rule 8 (parameter -> CUTOFF cutoff_value .)
+    PITCH_BEND      reduce using rule 8 (parameter -> CUTOFF cutoff_value .)
+    CHANNEL_VOLUME  reduce using rule 8 (parameter -> CUTOFF cutoff_value .)
+    CHANNEL_PANNING reduce using rule 8 (parameter -> CUTOFF cutoff_value .)
+    $end            reduce using rule 8 (parameter -> CUTOFF cutoff_value .)
+
+
+state 25
+
+    (17) cutoff_value -> INT .
+
+    START_TIME      reduce using rule 17 (cutoff_value -> INT .)
+    END_TIME        reduce using rule 17 (cutoff_value -> INT .)
+    VELOCITY        reduce using rule 17 (cutoff_value -> INT .)
+    CHORD           reduce using rule 17 (cutoff_value -> INT .)
+    PANNING         reduce using rule 17 (cutoff_value -> INT .)
+    CUTOFF          reduce using rule 17 (cutoff_value -> INT .)
+    RESONANCE       reduce using rule 17 (cutoff_value -> INT .)
+    PITCH_BEND      reduce using rule 17 (cutoff_value -> INT .)
+    CHANNEL_VOLUME  reduce using rule 17 (cutoff_value -> INT .)
+    CHANNEL_PANNING reduce using rule 17 (cutoff_value -> INT .)
+    $end            reduce using rule 17 (cutoff_value -> INT .)
+
+
+state 26
+
+    (9) parameter -> RESONANCE resonance_value .
+
+    START_TIME      reduce using rule 9 (parameter -> RESONANCE resonance_value .)
+    END_TIME        reduce using rule 9 (parameter -> RESONANCE resonance_value .)
+    VELOCITY        reduce using rule 9 (parameter -> RESONANCE resonance_value .)
+    CHORD           reduce using rule 9 (parameter -> RESONANCE resonance_value .)
+    PANNING         reduce using rule 9 (parameter -> RESONANCE resonance_value .)
+    CUTOFF          reduce using rule 9 (parameter -> RESONANCE resonance_value .)
+    RESONANCE       reduce using rule 9 (parameter -> RESONANCE resonance_value .)
+    PITCH_BEND      reduce using rule 9 (parameter -> RESONANCE resonance_value .)
+    CHANNEL_VOLUME  reduce using rule 9 (parameter -> RESONANCE resonance_value .)
+    CHANNEL_PANNING reduce using rule 9 (parameter -> RESONANCE resonance_value .)
+    $end            reduce using rule 9 (parameter -> RESONANCE resonance_value .)
+
+
+state 27
+
+    (18) resonance_value -> INT .
+
+    START_TIME      reduce using rule 18 (resonance_value -> INT .)
+    END_TIME        reduce using rule 18 (resonance_value -> INT .)
+    VELOCITY        reduce using rule 18 (resonance_value -> INT .)
+    CHORD           reduce using rule 18 (resonance_value -> INT .)
+    PANNING         reduce using rule 18 (resonance_value -> INT .)
+    CUTOFF          reduce using rule 18 (resonance_value -> INT .)
+    RESONANCE       reduce using rule 18 (resonance_value -> INT .)
+    PITCH_BEND      reduce using rule 18 (resonance_value -> INT .)
+    CHANNEL_VOLUME  reduce using rule 18 (resonance_value -> INT .)
+    CHANNEL_PANNING reduce using rule 18 (resonance_value -> INT .)
+    $end            reduce using rule 18 (resonance_value -> INT .)
+
+
+state 28
+
+    (10) parameter -> PITCH_BEND pitch_bend_value .
+
+    START_TIME      reduce using rule 10 (parameter -> PITCH_BEND pitch_bend_value .)
+    END_TIME        reduce using rule 10 (parameter -> PITCH_BEND pitch_bend_value .)
+    VELOCITY        reduce using rule 10 (parameter -> PITCH_BEND pitch_bend_value .)
+    CHORD           reduce using rule 10 (parameter -> PITCH_BEND pitch_bend_value .)
+    PANNING         reduce using rule 10 (parameter -> PITCH_BEND pitch_bend_value .)
+    CUTOFF          reduce using rule 10 (parameter -> PITCH_BEND pitch_bend_value .)
+    RESONANCE       reduce using rule 10 (parameter -> PITCH_BEND pitch_bend_value .)
+    PITCH_BEND      reduce using rule 10 (parameter -> PITCH_BEND pitch_bend_value .)
+    CHANNEL_VOLUME  reduce using rule 10 (parameter -> PITCH_BEND pitch_bend_value .)
+    CHANNEL_PANNING reduce using rule 10 (parameter -> PITCH_BEND pitch_bend_value .)
+    $end            reduce using rule 10 (parameter -> PITCH_BEND pitch_bend_value .)
+
+
+state 29
+
+    (19) pitch_bend_value -> INT .
+
+    START_TIME      reduce using rule 19 (pitch_bend_value -> INT .)
+    END_TIME        reduce using rule 19 (pitch_bend_value -> INT .)
+    VELOCITY        reduce using rule 19 (pitch_bend_value -> INT .)
+    CHORD           reduce using rule 19 (pitch_bend_value -> INT .)
+    PANNING         reduce using rule 19 (pitch_bend_value -> INT .)
+    CUTOFF          reduce using rule 19 (pitch_bend_value -> INT .)
+    RESONANCE       reduce using rule 19 (pitch_bend_value -> INT .)
+    PITCH_BEND      reduce using rule 19 (pitch_bend_value -> INT .)
+    CHANNEL_VOLUME  reduce using rule 19 (pitch_bend_value -> INT .)
+    CHANNEL_PANNING reduce using rule 19 (pitch_bend_value -> INT .)
+    $end            reduce using rule 19 (pitch_bend_value -> INT .)
+
+
+state 30
+
+    (11) parameter -> CHANNEL_VOLUME volume_value .
+
+    START_TIME      reduce using rule 11 (parameter -> CHANNEL_VOLUME volume_value .)
+    END_TIME        reduce using rule 11 (parameter -> CHANNEL_VOLUME volume_value .)
+    VELOCITY        reduce using rule 11 (parameter -> CHANNEL_VOLUME volume_value .)
+    CHORD           reduce using rule 11 (parameter -> CHANNEL_VOLUME volume_value .)
+    PANNING         reduce using rule 11 (parameter -> CHANNEL_VOLUME volume_value .)
+    CUTOFF          reduce using rule 11 (parameter -> CHANNEL_VOLUME volume_value .)
+    RESONANCE       reduce using rule 11 (parameter -> CHANNEL_VOLUME volume_value .)
+    PITCH_BEND      reduce using rule 11 (parameter -> CHANNEL_VOLUME volume_value .)
+    CHANNEL_VOLUME  reduce using rule 11 (parameter -> CHANNEL_VOLUME volume_value .)
+    CHANNEL_PANNING reduce using rule 11 (parameter -> CHANNEL_VOLUME volume_value .)
+    $end            reduce using rule 11 (parameter -> CHANNEL_VOLUME volume_value .)
+
+
+state 31
+
+    (20) volume_value -> INT .
+
+    START_TIME      reduce using rule 20 (volume_value -> INT .)
+    END_TIME        reduce using rule 20 (volume_value -> INT .)
+    VELOCITY        reduce using rule 20 (volume_value -> INT .)
+    CHORD           reduce using rule 20 (volume_value -> INT .)
+    PANNING         reduce using rule 20 (volume_value -> INT .)
+    CUTOFF          reduce using rule 20 (volume_value -> INT .)
+    RESONANCE       reduce using rule 20 (volume_value -> INT .)
+    PITCH_BEND      reduce using rule 20 (volume_value -> INT .)
+    CHANNEL_VOLUME  reduce using rule 20 (volume_value -> INT .)
+    CHANNEL_PANNING reduce using rule 20 (volume_value -> INT .)
+    $end            reduce using rule 20 (volume_value -> INT .)
+
+
+state 32
+
+    (12) parameter -> CHANNEL_PANNING panning_value .
+
+    START_TIME      reduce using rule 12 (parameter -> CHANNEL_PANNING panning_value .)
+    END_TIME        reduce using rule 12 (parameter -> CHANNEL_PANNING panning_value .)
+    VELOCITY        reduce using rule 12 (parameter -> CHANNEL_PANNING panning_value .)
+    CHORD           reduce using rule 12 (parameter -> CHANNEL_PANNING panning_value .)
+    PANNING         reduce using rule 12 (parameter -> CHANNEL_PANNING panning_value .)
+    CUTOFF          reduce using rule 12 (parameter -> CHANNEL_PANNING panning_value .)
+    RESONANCE       reduce using rule 12 (parameter -> CHANNEL_PANNING panning_value .)
+    PITCH_BEND      reduce using rule 12 (parameter -> CHANNEL_PANNING panning_value .)
+    CHANNEL_VOLUME  reduce using rule 12 (parameter -> CHANNEL_PANNING panning_value .)
+    CHANNEL_PANNING reduce using rule 12 (parameter -> CHANNEL_PANNING panning_value .)
+    $end            reduce using rule 12 (parameter -> CHANNEL_PANNING panning_value .)
 

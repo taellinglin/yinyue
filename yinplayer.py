@@ -94,11 +94,16 @@ def parse_yin(yin_file_path, synth):
 
             print("Extracting Note Parameters...")
             # Extract the note parameters (start time, velocity)
-            note_params = line[line.index(':')+1:].split(', ')
+            note_params = line[line.index(':')+1:].split(',')  # Change ', ' to ','
 
             start_time = None
             velocities = []
+            duration = 1.0
             for param in note_params:
+                param = param.strip()  # Stripping the whitespace from both ends
+                if param.startswith('D:'):
+                    duration = float(param[2:].strip())  # Extract the duration
+                    break
                 if param.startswith('S:'):
                     print("Extracting start time")
                     start_time = float(param[2:].strip())  # Extract the start time
