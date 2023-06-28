@@ -1,20 +1,84 @@
-[Instrument]
-Name = MyInstrument
-Author = John Doe
+名称: 我的乐器
+作者: 灵林
 
-[Parameters]
-WaveformType = sawtooth
-FilterType = bandreject
-AttackTime = 0.5
-DecayTime = 1.0
-SustainLevel = 1.0
-ReleaseTime = 0.5
-LFOAttackTime = 0.1
-LFOAmplitude = 0.5
-LFOSpeed = 2.0
-LFOWaveform = triangle
-PanningLFOAttackTime = 0.1
-PanningLFOAmplitude = 0.5
-PanningLFOSpeed = 2.0
-PanningLFOWaveform = sine
-
+振荡器:
+- 振荡器1:
+    波形类型: Triangle
+    过滤器类型: LowPass
+    过滤器截止频率: 12000
+    过滤器共振: 0.5
+    过滤器包络:
+      攻击时间: 0.1
+      衰减时间: 0.2
+      持续级别: 0.8
+      释放时间: 0.2
+    LFO:
+      攻击时间: 0.5
+      频率: 2.0
+      振幅: 0.2
+      波形: Triangle
+    平移:
+      攻击时间: 0.5
+      频率: 2.0
+      振幅: 0.2
+      波形: Triangle
+- 振荡器2:
+    波形类型: Sawtooth
+    过滤器类型: LowPass
+    过滤器截止频率: 10000
+    过滤器共振: 0.6
+    过滤器包络:
+      攻击时间: 0.2
+      衰减时间: 0.3
+      持续级别: 0.7
+      释放时间: 0.3
+    LFO:
+      攻击时间: 0.6
+      频率: 1.5
+      振幅: 0.3
+      波形: Sawtooth
+    平移:
+      攻击时间: 0.6
+      频率: 1.5
+      振幅: 0.3
+      波形: Sawtooth
+- 振荡器3:
+    波形类型: Triangle
+    过滤器类型: LowPass
+    过滤器截止频率: 11000
+    过滤器共振: 0.7
+    过滤器包络:
+      攻击时间: 0.3
+      衰减时间: 0.4
+      持续级别: 0.6
+      释放时间: 0.4
+    LFO:
+      攻击时间: 0.7
+      频率: 1.0
+      振幅: 0.4
+      波形: Triangle
+    平移:
+      攻击时间: 0.7
+      频率: 1.0
+      振幅: 0.4
+      波形: Triangle
+- 振荡器4:
+    波形类型: Sawtooth
+    过滤器类型: LowPass
+    过滤器截止频率: 9000
+    过滤器共振: 0.8
+    过滤器包络:
+      攻击时间: 0.4
+      衰减时间: 0.5
+      持续级别: 0.5
+      释放时间: 0.5
+    LFO:
+      攻击时间: 0.8
+      频率: 0.5
+      振幅: 0.5
+      波形: Sawtooth
+    平移:
+      攻击时间: 0.8
+      频率: 0.5
+      振幅: 0.5
+      波形: Sawtooth

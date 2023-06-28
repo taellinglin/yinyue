@@ -1,12 +1,14 @@
 import sys
 from ply import lex
-import subsynth
+import synthesizers.subsynth as subsynth
 
 # Create subsynth instance
 synth = subsynth.SubtractiveSynthesizer("default.instrument")
 
 # Define tokens
 tokens = (
+    'TITLE',
+    'AUTHOR',
     'CHANNEL',
     'NOTE',
     'START_TIME',
@@ -15,6 +17,15 @@ tokens = (
     'VOLUME',
     'ILLEGAL',
 )
+# Rule for '名称:'
+def t_TITLE(t):
+    r'名称:'
+    return t
+
+# Rule for '作者:'
+def t_AUTHOR(t):
+    r'作者:'
+    return t
 
 # Regular expressions for tokens
 def t_CHANNEL(t):
