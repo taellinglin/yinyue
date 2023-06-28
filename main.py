@@ -1,111 +1,55 @@
-import ply.lex as lex
-import ply.yacc as yacc
-import argparse
+from kivy.app import App
+from kivy.uix.boxlayout import BoxLayout
+from kivy.uix.label import Label
+from kivy.uix.tabbedpanel import TabbedPanel, TabbedPanelHeader
+from kivy.core.text import LabelBase
+import os
 import sys
+sys.path.insert(1, './interfaces')
+sys.path.insert(2, './synthesizers')
+sys.path.insert(3, './utils')
+import perform
+import arrange
+import mixer
+import compose
+from subsynth import SubtractiveSynthesizer
 
-# Tokens
-tokens = (
-    'NOTE',
-    'INSTRUMENT',
-    'TEMPO',
-    'DURATION',
-    'VELOCITY',
-)
+class YinYue(App):
+    def build(self):
+        # Set the custom font for Chinese characters
+        LabelBase.register(name='ZCoolXiaoWei', fn_regular='./fonts/ZCOOLXiaoWei-Regular.ttf')
+        self.synthesizer = SubtractiveSynthesizer('./patches/pad.instrument')
+        # Main layout
+        main_layout = BoxLayout(orientation='vertical')
 
-# Lexer rules
-def t_NOTE(t):
-    r'[A-G][#b]?-?[0-9]+'
-    return t
+        # Content area with tabs
+        content = TabbedPanel(do_default_tab=False)
 
+        # Load tab content from separate files
+        tabs = [
+            {'title': '履行', 'content': 'perform.py'},
+            {'title': '安排', 'content': 'arrange.py'},
+            {'title': '混合器', 'content': 'mixer.py'},
+            {'title': '撰写', 'content': 'compose.py'},
+            {'title': '设置', 'content': 'settings.py'}
+        ]
 
-def t_INSTRUMENT(t):
-    r'@[A-Za-z_][A-Za-z_0-9]*'
-    return t
-
-def t_TEMPO(t):
-    r'T\d+'
-    return t
-
-def t_DURATION(t):
-    r'D\d+'
-    return t
-    
-def t_error(t):
-    print("Illegal character '%s'" % t.value[0], file=sys.stderr)
-    t.lexer.skip(1)
-
-
-def t_VELOCITY(t):
-    r'V\d+'
-    return t
-
-t_ignore = ' \t\n'
-
-# Parser rules
-def p_statements(p):
-    '''statements : statement
-                  | statements statement'''
-    if len(p) == 2:
-        p[0] = [p[1]]
-    else:
-        p[0] = p[1] + [p[2]]
-
-def p_statement(p):
-    '''statement : note_statement
-                 | instrument_statement
-                 | tempo_statement
-                 | duration_statement
-                 | velocity_statement'''
-    p[0] = p[1]
-
-def p_note_statement(p):
-    'note_statement : NOTE DURATION VELOCITY'
-    p[0] = ('note', p[1], int(p[2][1:]), int(p[3][1:]))
-
-def p_instrument_statement(p):
-    'instrument_statement : INSTRUMENT'
-    p[0] = ('instrument', p[1])
-
-def p_tempo_statement(p):
-    'tempo_statement : TEMPO'
-    p[0] = ('tempo', int(p[1][1:]))
-
-def p_duration_statement(p):
-    'duration_statement : DURATION'
-    p[0] = ('duration', int(p[1][1:]))
-
-def p_velocity_statement(p):
-    'velocity_statement : VELOCITY'
-    p[0] = ('velocity', int(p[1][1:]))
-
-def p_error(p):
-    if p:
-        print("Syntax error at '%s'" % p.value, file=sys.stderr)
-    else:
-        print("Syntax error at EOF", file=sys.stderr)
+        for tab in tabs:
+            header = TabbedPanelHeader(text=tab['title'], font_name='ZCoolXiaoWei' )
+            content_module = __import__(tab['content'].split('.')[0])
+            content_layout = content_module.get_content(self.synthesizer) if content_module.__name__ == 'perform' else content_module.get_content()
 
 
-lexer =lex.lex()
 
-parser = yacc.yacc()
+            # Call get_content() function from content module
+            header.content = content_layout
+            content.add_widget(header)
 
-def parse_program(program):
-    return parser.parse(program, lexer=lexer)
+        # Add content to main layout
+        main_layout.add_widget(content)
 
-def parse_file(input_filename, output_filename):
-    with open(input_filename, 'r') as file:
-        program = file.read()
-    parsed_program = parse_program(program)
-    with open(output_filename, 'w') as file:
-        file.write(str(parsed_program))
+        return main_layout
 
-def main():
-    parser = argparse.ArgumentParser()
-    parser.add_argument('input_file', help="The .yin file to parse")
-    parser.add_argument('-o', '--output_file', help="The .yue file to output", default="output.yue")
-    args = parser.parse_args()
 
-    parse_file(args.input_file, args.output_file)
-
-if __name__ == "__main__":
-    main()
+if __name__ == '__main__':
+    YinYue().run()
