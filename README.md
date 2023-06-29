@@ -1,4 +1,5 @@
 音悦: 一个使用 Kivy 构建的 DAW (数字音频工作站)
+![image](https://github.com/taellinglin/yinyue/assets/82527149/297d6b86-c4e1-4560-8936-f456979834a4)
 
 音悦是一个使用Python的Kivy库创建的简单数字音频工作站。项目中包含的所有模块都被设计为可插拔的，以便于扩展和定制。
 主要特性
