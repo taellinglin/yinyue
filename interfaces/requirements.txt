@@ -1,0 +1,6 @@
+Kivy==2.0.0
+midi==0.2.3
+numpy==1.21.2
+pygame==2.0.1
+python-rtmidi==1.4.7
+sounddevice==0.4.1
