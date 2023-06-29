@@ -1,0 +1,31 @@
+#:kivy 2.0.0
+
+BoxLayout:
+    orientation: 'vertical'
+
+    TabbedPanel:
+        do_default_tab: False
+
+        TabbedPanelHeader:
+            text: '履行'
+            content: PerformInterface
+
+        TabbedPanelHeader:
+            text: '安排'
+            content: ArrangeInterface
+
+        TabbedPanelHeader:
+            text: '混合器'
+            content: MixerInterface
+
+        TabbedPanelHeader:
+            text: '撰写'
+            content: ComposeInterface
+
+        TabbedPanelHeader:
+            text: '乐器'
+            content: InstrumentInterface
+
+        TabbedPanelHeader:
+            text: '设置'
+            content: SettingsInterface()

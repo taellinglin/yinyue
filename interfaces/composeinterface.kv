@@ -1,0 +1,45 @@
+<NoteButton>:
+    size_hint_y: None
+    height: 30
+
+<PianoRoll>:
+    orientation: "vertical"
+
+    ScrollView:
+        size_hint: 1, 0.8
+
+        GridLayout:
+            cols: 1
+            id: piano_layout
+            spacing: 2
+
+    ScrollView:
+        size_hint: 1, 0.2
+
+        GridLayout:
+            cols: 32
+            id: note_grid
+            spacing: 2
+            size_hint_y: None
+            height: self.minimum_height
+
+    GridLayout:
+        cols: 3
+        size_hint: 1, None
+        height: 100
+        padding: 10, 10
+        spacing: 10
+
+        Label:
+            text: "Velocity"
+        Slider:
+            min: 0
+            max: 127
+            value: 64
+
+        Label:
+            text: "Panning"
+        Slider:
+            min: -1
+            max: 1
+            value: 0

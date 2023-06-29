@@ -1,0 +1,23 @@
+<PerformInterface>:
+    orientation: 'vertical'
+
+    canvas.before:
+        Color:
+            rgba: 0, 0, 0, 1
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+    GridLayout:
+        cols: 12
+        rows: 12
+        spacing: 4
+        size_hint: 1, 1
+
+        Button:
+            size_hint: 1 / 12, 1 / 12
+            on_press: self.play_note()
+            background_color: self.draw_background()
+
+        # Repeat the above Button for all the notes and octaves you need
+

@@ -1,18 +1,19 @@
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.gridlayout import GridLayout
-from kivy.uix.label import Label
 from kivy.uix.button import Button
 from kivy.graphics import Color, Rectangle
 from kivy.clock import Clock
 import random
 import colorsys
 
+
 class ColorfulButton(Button):
-    def __init__(self, note, octave, synthesizer, **kwargs):
+    def __init__(self, note, octave, synthesizer, stream, **kwargs):
         super().__init__(**kwargs)
         self.note = note
         self.octave = octave
         self.synthesizer = synthesizer
+        self.stream = stream
         self.draw_background()
 
     def draw_background(self):
@@ -21,7 +22,6 @@ class ColorfulButton(Button):
         value = 1.6  # Adjust the value/brightness value as needed
         r, g, b = colorsys.hsv_to_rgb(hue, saturation, value)
         self.background_color = (r, g, b, 1)
-
 
     def play_note(self):
         note_value = self.note_to_int(self.note) + self.octave * 12
@@ -33,48 +33,55 @@ class ColorfulButton(Button):
         return note_dict[note]
 
 
-def get_content(synthesizer=None):
-    performance_layout = BoxLayout(orientation='vertical')
+class PerformInterface(BoxLayout):
+    def __init__(self, synthesizer=None, stream=None, **kwargs):
+        super().__init__(**kwargs)
+        self.orientation = 'vertical'
+        self.synthesizer = synthesizer
+        self.stream = stream
+        self.bg_rect = Rectangle(pos=self.pos, size=self.size)
+        self.update_bg_rect()
+        self.create_content()
+        self.schedule_color_update()
 
-    def update_bg_rect(instance, value):
-        performance_layout.bg_rect.pos = performance_layout.pos
-        performance_layout.bg_rect.size = performance_layout.size
+    def update_bg_rect(self, *args):
+        if self.bg_rect:
+            self.bg_rect.pos = self.pos
+            self.bg_rect.size = self.size
 
-    performance_layout.update_bg_rect = update_bg_rect
+    def create_content(self):
+        with self.canvas.before:
+            Color(0, 0, 0, 1)  # Set color to black
+            self.bg_rect = Rectangle(pos=self.pos, size=self.size)
 
-    # Create a black background
-    with performance_layout.canvas.before:
-        Color(0, 0, 0, 1)  # Set color to black
-        performance_layout.bg_rect = Rectangle(pos=performance_layout.pos, size=performance_layout.size)
+        self.bind(pos=self.update_bg_rect, size=self.update_bg_rect)
 
-    performance_layout.bind(pos=performance_layout.update_bg_rect, size=performance_layout.update_bg_rect)
+        if self.synthesizer:
+            print("Synthesizer Passed...")
 
-    if synthesizer:
-        print("Synthesizer Passed...")
+        grid_layout = GridLayout(cols=12, rows=12, spacing=4, size_hint=(1, 1))
+        buttons = []
+        num_octaves = 12
+        notes = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B']
 
-    grid_layout = GridLayout(cols=12, rows=12, spacing=4, size_hint=(1, 1))
-    buttons = []
-    num_octaves = 12
-    notes = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B']
+        for octave in range(-4, num_octaves - 4):
+            for note in notes:
+                button = ColorfulButton(note=note, octave=octave, synthesizer=self.synthesizer, stream=self.stream,
+                                        size_hint=(1 / 12, 1 / 12))
+                button.bind(on_press=lambda btn: btn.play_note())
+                buttons.append(button)
+                grid_layout.add_widget(button)
 
-    # Create buttons for each note and octave
-    for octave in range(0, num_octaves):
-        for note in notes:
-            button = ColorfulButton(note=note, octave=octave, synthesizer=synthesizer, size_hint=(1 / 12, 1 / 12))
-            button.bind(on_press=lambda btn: btn.play_note())
-            buttons.append(button)
-            grid_layout.add_widget(button)
+        self.add_widget(grid_layout)
 
-    performance_layout.add_widget(grid_layout)
-
-    def update_colors(*args):
-        for button in buttons:
+    def update_colors(self, *args):
+        for button in self.buttons:
             button.draw_background()
 
-    # Schedule color update every second
-    Clock.schedule_interval(update_colors, 1)
-
-    return performance_layout
-
+    def schedule_color_update(self):
+        self.buttons = self.walk(restrict=True, loopback=True)
+        Clock.schedule_interval(self.update_colors, 1)
 
 
+def get_content(synthesizer=None, stream=None):
+    return PerformInterface(synthesizer=synthesizer, stream=stream)

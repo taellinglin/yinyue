@@ -1,0 +1,18 @@
+<Clip>:
+    text: root.clip_type
+    size_hint: 1, None
+    height: "48dp"
+
+<TimelineChannel>:
+    cols: 1
+    Label:
+        text: root.channel_name
+
+<ArrangeInterface>:
+    orientation: "vertical"
+    timeline: timeline
+    GridLayout:
+        id: timeline
+        cols: 1
+        size_hint: 1, 1
+

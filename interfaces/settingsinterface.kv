@@ -1,0 +1,55 @@
+<SettingsInterface>:
+    orientation: "vertical"
+
+    BoxLayout:
+        size_hint_y: None
+        height: "30dp"
+
+        Label:
+            text: "Sample Rate:"
+        
+        TextInput:
+            id: sample_rate_input
+            hint_text: "Enter sample rate"
+
+    BoxLayout:
+        size_hint_y: None
+        height: "30dp"
+
+        Label:
+            text: "Enable MIDI Input:"
+        
+        Switch:
+            id: midi_in_toggle
+
+    BoxLayout:
+        size_hint_y: None
+        height: "30dp"
+
+        Label:
+            text: "MIDI Input Port:"
+        
+        TextInput:
+            id: midi_in_port_input
+            hint_text: "Enter MIDI input port"
+
+    BoxLayout:
+        size_hint_y: None
+        height: "30dp"
+
+        Label:
+            text: "Enable MIDI Output:"
+        
+        Switch:
+            id: midi_out_toggle
+
+    BoxLayout:
+        size_hint_y: None
+        height: "30dp"
+
+        Label:
+            text: "MIDI Output Port:"
+        
+        TextInput:
+            id: midi_out_port_input
+            hint_text: "Enter MIDI output port"
